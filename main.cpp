@@ -1,6 +1,5 @@
 #include<iostream>
 #include<fstream>
-#include<string>
 
 using namespace std;
 
@@ -22,11 +21,11 @@ void peakfinder(int** mat, int row, int col, int **pos, int*count){
 }
 
 int main(int argc, char* argv[]){
-    char cmd[20] = "cd ";
-    strcat(cmd, argv[1]);
-    system(cmd);
+    char tmp[20] = "/matrix.data";
+    strcat(argv[1],tmp);
 
-    ifstream inFile("matrix.data" , ios::in);
+    ifstream inFile;
+    inFile.open(argv[1]);
     if(!inFile) cout<< '.';
 
     int row, col;
@@ -53,7 +52,7 @@ int main(int argc, char* argv[]){
 
     int **pos = new int*[10];
     for(int i=0;i<10;i++)   pos[i] = new int[2];
-    peakfinder(mat, row, col, pos, c);
+    //peakfinder(mat, row, col, pos, c);
     
     
     cout<<count<<endl;
