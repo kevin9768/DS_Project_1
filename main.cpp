@@ -5,15 +5,15 @@ using namespace std;
 
 
 void peakfinder(int** mat, int row, int col, int **pos, int*count){
-    for(int i=0;i<row;i++){
-        for(int j=0;j<col;j++){
+    for(int i=1;i<=row;i++){
+        for(int j=1;j<=col;j++){
             if(mat[i][j]>=mat[i-1][j]&&
                mat[i][j]>=mat[i][j-1]&&
                mat[i][j]>=mat[i][j+1]&&
                mat[i][j]>=mat[i+1][j]){
                 pos[*count][0]=i;
                 pos[*count][1]=j;
-                count+=4;
+                (*count) += 1;
             }
         }
     }
@@ -35,16 +35,11 @@ int main(int argc, char* argv[]){
 
     //cout << row << ' ' << col << endl;
 
-    int **mat = new int*[row];
-    for(int i = 0; i<row; i++)  mat[i] = new int[col];
+    int **mat = new int*[row+2];
+    for(int i = 0; i<row+2; i++)  mat[i] = new int[col+2];
 
-    for(int j = 0; j<row; j++){
-        for(int k = 0; k<col; k++){
-            inFile >> mat[j][k];
-            //cout << mat[j][k] <<' ';
-        }
-        //cout << endl;
-    }
+    for(int j = 1; j<=row; j++)
+        for(int k = 1; k<=col; k++)  inFile >> mat[j][k];
     inFile.close();
     
     int count=0;
@@ -52,7 +47,8 @@ int main(int argc, char* argv[]){
 
     int **pos = new int*[10];
     for(int i=0;i<10;i++)   pos[i] = new int[2];
-    //peakfinder(mat, row, col, pos, c);
+    
+    peakfinder(mat, row, col, pos, c);
     
     
     cout<<count<<endl;
