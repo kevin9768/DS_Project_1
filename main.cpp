@@ -1,10 +1,11 @@
 #include<iostream>
 #include<fstream>
+#include<cstring>
 
 using namespace std;
 
 
-void peakfinder(int** mat, int row, int col, int **pos, int*count){
+void peakfinder(long** mat, int row, int col, int **pos, int*count){
     for(int i=1;i<=row;i++){
         for(int j=1;j<=col;j++){
             if(mat[i][j]>=mat[i-1][j]&&
@@ -21,11 +22,14 @@ void peakfinder(int** mat, int row, int col, int **pos, int*count){
 }
 
 int main(int argc, char* argv[]){
-    char tmp[20] = "/matrix.data";
-    strcat(argv[1],tmp);
+    char inftmp[15];
+    strcpy(inftmp,"/matrix.data");
+    char inf[30];
+    strcpy(inf,argv[1]);
+    strcat(inf,inftmp);
 
     ifstream inFile;
-    inFile.open(argv[1]);
+    inFile.open(inf);
     if(!inFile) cout<< '.';
 
     int row, col;
@@ -35,8 +39,8 @@ int main(int argc, char* argv[]){
 
     //cout << row << ' ' << col << endl;
 
-    int **mat = new int*[row+2];
-    for(int i = 0; i<row+2; i++)  mat[i] = new int[col+2];
+    long **mat = new long*[row+2];
+    for(int i = 0; i<row+2; i++)  mat[i] = new long[col+2];
 
     for(int j = 1; j<=row; j++)
         for(int k = 1; k<=col; k++)  inFile >> mat[j][k];
@@ -45,14 +49,29 @@ int main(int argc, char* argv[]){
     int count=0;
     int *c=&count;
 
-    int **pos = new int*[10];
-    for(int i=0;i<10;i++)   pos[i] = new int[2];
+    int **pos = new int*[1000000];
+    for(int i=0;i<1000000;i++)   pos[i] = new int[2];
     
     peakfinder(mat, row, col, pos, c);
     
+    char of[30];
+    strcpy(of,argv[1]);
+    char oftmp[15];
+    strcpy(oftmp,"/final.peak");
+    strcat(of,oftmp);
+    ofstream outFile;
+    outFile.open(of);
     
-    cout<<count<<endl;
+    outFile<<count<<endl;
     for(int i=0;i<count;i++){
-        cout<< pos[i][0] << ' ' <<pos[i][1]<<endl;
+        outFile<< pos[i][0] << ' ' <<pos[i][1]<<endl;
     }
+    outFile.close();
+
+    //free
+    for(int i=0; i<row+2; i++)  delete[] mat[i];   
+    delete[] mat;
+
+    for(int i=0; i<1000000; i++)    delete[] pos[i];
+    delete[] pos;
 }
