@@ -4,15 +4,70 @@
 
 using namespace std;
 
+bool isPeak(long** mat,int **pos,int count,int i,int j,int row, int col){
+    //left-top corner
+    if(i==1&&j==1&&mat[i][j]>=mat[i][j+1]&&mat[i][j]>=mat[i+1][j]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //right-top corner
+    if(i==1&&j==col&&mat[i][j]>=mat[i][j-1]&&mat[i][j]>=mat[i+1][j]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //left-bot corner
+    if(i==row&&j==1&&mat[i][j]>=mat[i-1][j]&&mat[i][j]>=mat[i][j+1]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //right-bot corner
+    if(i==row&&j==col&&mat[i][j]>=mat[i-1][j]&&mat[i][j]>=mat[i][j-1]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //top bar
+    if(i==1&&mat[i][j]>=mat[i][j-1]&&mat[i][j]>=mat[i][j+1]&&mat[i][j]>=mat[i+1][j]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //left bar
+    if(j==1&&mat[i][j]>=mat[i-1][j]&&mat[i][j]>=mat[i][j+1]&&mat[i][j]>=mat[i+1][j]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //bot bar
+    if(i==row&&mat[i][j]>=mat[i-1][j]&&mat[i][j]>=mat[i][j-1]&&mat[i][j]>=mat[i][j+1]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //right bar
+    if(j==col&&mat[i][j]>=mat[i-1][j]&&mat[i][j]>=mat[i][j-1]&&mat[i][j]>=mat[i+1][j]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    //the remainings
+    if(mat[i][j]>=mat[i-1][j]&&mat[i][j]>=mat[i][j-1]&&mat[i][j]>=mat[i][j+1]&&mat[i][j]>=mat[i+1][j]){
+        pos[count][0]=i;
+        pos[count][1]=j;
+        return true;
+    }
+    else return false;
+}
 
 int peakfinder(long** mat, int row, int col, int **pos){
     int count = 0;
+    //brutal method
     for(int i=1;i<=row;i++){
         for(int j=1;j<=col;j++){
-            if(mat[i][j]>=mat[i-1][j]&&
-               mat[i][j]>=mat[i][j-1]&&
-               mat[i][j]>=mat[i][j+1]&&
-               mat[i][j]>=mat[i+1][j]){
+            if(isPeak(mat,pos,count,i,j,row,col)){
                 pos[count][0]=i;
                 pos[count][1]=j;
                 count++;
