@@ -4,8 +4,21 @@
 
 using namespace std;
 
-bool isPeak(long* a1, long* a2, long* a3, int j, int col);
-bool isPeakS(long* a1, long* a2, int j, int col){
+bool isPeak(long* a1, long* a2, long* a3, int j, int col){ //a1 top, a2 mid, a3 bot
+    if(j==1){
+        if(a2[j]>=a1[j]&&a2[j]>=a3[j]&&a2[j]>=a2[j+1])  return true;
+        else return false;
+    }
+    else if(j==col){
+        if(a2[j]>=a1[j]&&a2[j]>=a3[j]&&a2[j]>=a2[j-1])  return true;
+        else return false;
+    }
+    else{
+        if(a2[j]>=a1[j]&&a2[j]>=a3[j]&&a2[j]>=a2[j+1]&&a2[j]>=a2[j-1])  return true;
+        else return false;
+    }
+}
+bool isPeakS(long* a1, long* a2, int j, int col){//a1 top, a2 bot for the start
     if(j==1){
         if(a1[j]>=a1[j+1]&&a1[j]>=a2[j])    return true;
         else return false;
@@ -19,7 +32,20 @@ bool isPeakS(long* a1, long* a2, int j, int col){
         else return false;
     }
 }
-bool isPeakE(long* a1, long* a2, int j, int col);
+bool isPeakE(long* a1, long* a2, int j, int col){//a1 top, a2 bot for the end
+    if(j==1){
+        if(a2[j]>=a1[j]&&a2[j]>=a2[j+1])    return true;
+        else return false;
+    }
+    else if(j==col){
+        if(a2[j]>=a1[j]&&a2[j]>=a2[j-1])    return true;
+        else return false;
+    }
+    else{
+        if(a2[j]>=a1[j]&&a2[j]>=a2[j+1]&&a2[j]>=a2[j-1])    return true;
+        else return false;
+    }
+}
 
 int main(int argc, char* argv[]){
     //open file
@@ -50,33 +76,72 @@ int main(int argc, char* argv[]){
     int i = 1;
     while(i<=row){
         if(i%3==1){
-            for(int a=1; a<=col; a++){
-                inFile>>b1[a];
-            }
             if(i==1){
+                for(int a=1; a<=col; a++)   inFile>>b1[a];
                 i++;
                 continue;
+            }
+            for(int a=1; a<=col; a++){
+                inFile>>b1[a];
+                if(isPeak(b2,b3,b1,a,col)){
+                    outFile << i-1 << ' ' << a << endl;
+                    count++;
+                }
             }
         }
         else if(i%3==2){
             if(i==2){
                 for(int a=1; a<=col; a++){
                     inFile>>b2[a];
-                    isPeakS(b1,b2,a,col);
+                    if(isPeakS(b1,b2,a,col)){
+                        outFile << i-1 << ' ' << a << endl;
+                        count++;
+                    }
                 }
                 i++;
                 continue;
             }
             for(int a=1; a<=col; a++){
                 inFile>>b2[a];
+                if(isPeak(b3,b1,b2,a,col)){
+                    outFile << i-1 << ' ' << a << endl;
+                    count++;
+                }
             }
         }
         else if(i%3==0){
-            for(int a=1; a<+col; a++){
+            for(int a=1; a<=col; a++){
                 inFile>>b3[a];
+                if(isPeak(b1,b2,b3,a,col)){
+                    outFile << i-1 << ' ' << a << endl;
+                    count++;
+                }
+            }
+        }
+        if(i==row){
+            if(i%3==1){
+                for(int a=1; a<=col; a++)
+                    if(isPeakE(b3,b1,a,col)){
+                        outFile << i << ' ' << a << endl;
+                        count++;
+                    }
+            }
+            else if(i%3==2){
+                for(int a=1; a<=col; a++)
+                    if(isPeakE(b1,b2,a,col)){
+                        outFile << i << ' ' << a << endl;
+                        count++;
+                    }
+            }
+            else if(i%3==0){
+                for(int a=1; a<=col; a++)
+                    if(isPeakE(b2,b3,a,col)){
+                        outFile << i << ' ' << a << endl;
+                        count++;
+                    }
             }
         }
         i++;
     }
-    //deal with last row
+    
 }
