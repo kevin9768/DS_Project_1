@@ -144,4 +144,29 @@ int main(int argc, char* argv[]){
         i++;
     }
     
+    //open final output file
+    char ooftmp[15] = "/final.peak";
+    char oof[30];
+    strcpy(oof,argv[1]);
+    strcat(oof,ooftmp);
+    fstream out;
+    out.open(oof);
+
+    //open temp file
+    char iinftmp[15] = "/tmp.peak";
+    char iinf[30];
+    strcpy(iinf,argv[1]);
+    strcat(iinf,iinftmp);
+    ifstream in;
+    in.open(iinf);
+
+    out<<count<<endl;
+    string line;
+    while(!in.eof()){
+        getline(in,line);
+        out<<line<<endl;
+    }
+    in.close();
+    out.close();
+    remove(iinf);
 }
