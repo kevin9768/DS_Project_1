@@ -143,13 +143,16 @@ int main(int argc, char* argv[]){
         }
         i++;
     }
+
+    inFile.close();
+    outFile.close();
     
     //open final output file
     char ooftmp[15] = "/final.peak";
     char oof[30];
     strcpy(oof,argv[1]);
     strcat(oof,ooftmp);
-    fstream out;
+    ofstream out;
     out.open(oof);
 
     //open temp file
