@@ -57,7 +57,7 @@ int main(int argc, char* argv[]){
     inFile.open(inf);
 
     //open output file for storing pos
-    char oftmp[15] = "/tmp.peak";
+    char oftmp[15] = "/final.peak";
     char of[30];
     strcpy(of,argv[1]);
     strcat(of,oftmp);
