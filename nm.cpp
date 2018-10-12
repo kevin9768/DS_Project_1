@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<cstring>
+//#include<time.h>
 
 using namespace std;
 
@@ -48,6 +49,9 @@ bool isPeakE(long* a1, long* a2, int j, int col){//a1 top, a2 bot for the end
 }
 
 int main(int argc, char* argv[]){
+
+    //clock_t t1,t2;
+    //t1 = clock();
     //open file
     char inftmp[15] = "/matrix.data";
     char inf[30];
@@ -164,12 +168,23 @@ int main(int argc, char* argv[]){
     in.open(iinf);
 
     out<<count<<endl;
-    string line;
+    /*string line;
     while(!in.eof()){
         getline(in,line);
         out<<line<<endl;
-    }
+    }*/
+    string cont = "";
+    int e;
+    for(e = 0; in.eof()!=true ; e++)    cont += in.get();
+
+    cont.erase(cont.end()-1);
+    
+    out<<cont;
     in.close();
     out.close();
+    remove(iinf);
 
+    //t2 = clock();
+
+    //cout<<(t2-t1) / (double)(CLOCKS_PER_SEC) <<endl;
 }
